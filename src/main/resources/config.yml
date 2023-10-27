@@ -11,7 +11,7 @@
 enderPouch:
   # enderPouch.item: (material)
   # this is the item that acts as the ender pouch in the player's inventory
-  item: ENDER_CHEST
+  item: ENDER_EYE
 
   # enderPouch.stackable: (boolean) true | false
   # this defines whether ender pouches are stackable
@@ -71,4 +71,4 @@ messages:
 
   # messages.attemptPlace: (string)
   # this is the message that will be sent to the player when they attempt to place an ender pouch
-  attemptPlace: "<#6e5d83><b>!</b> <#9982b6>You cannot place an ender pouch."
+  attemptPlace: "<#6e5d83><b>!</b> <#9982b6>You cannot place or use an ender pouch."

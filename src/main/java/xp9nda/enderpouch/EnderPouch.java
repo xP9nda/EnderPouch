@@ -12,7 +12,7 @@ import xp9nda.enderpouch.handlers.InfoCommand;
 import xp9nda.enderpouch.handlers.OpenCommand;
 import xp9nda.enderpouch.utils.InventoryUtils;
 
-import xp9nda.enderpouch.utils.Metrics
+import xp9nda.enderpouch.utils.Metrics;
 
 public final class EnderPouch extends JavaPlugin {
 

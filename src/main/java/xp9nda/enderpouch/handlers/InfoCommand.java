@@ -27,7 +27,7 @@ public class InfoCommand {
                     "\n" +
                     "\n<#6e5d83><b>Author:</b> <#9982b6><u><hover:show_text:'<#9982b6>Open GitHub'><click:open_url:'https://github.com/xP9nda'>xP9nda</click></hover></u>" +
                     "\n<#6e5d83><b>Version:</b> <#9982b6>This server is running version " + pluginClass.getPluginMeta().getVersion() +
-                    "\n<#6e5d83><b>View Source:</b> <#9982b6>link here" +
+                    "\n<#6e5d83><b>View Source:</b> <#9982b6><click:open_url:'https://github.com/xP9nda/EnderPouch'><u><hover:show_text:'<#9982b6>Open GitHub'>click here</hover></u></click>" +
                     "\n" +
                     "\n<#9982b6>EnderPouch is an all in one ender chest management and access plugin."
         ));
