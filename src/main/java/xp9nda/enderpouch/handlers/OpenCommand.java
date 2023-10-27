@@ -32,7 +32,9 @@ public class OpenCommand {
         }
 
         if (playerChestOwner == null) {
-            playerShowChestTo.sendMessage(miniMsg.deserialize(configHandler.getPlayerNotFoundErrorMessage()));
+            if (!configHandler.getPlayerNotFoundErrorMessage().isEmpty()) {
+                playerShowChestTo.sendMessage(miniMsg.deserialize(configHandler.getPlayerNotFoundErrorMessage()));
+            }
             return;
         }
 
@@ -49,7 +51,9 @@ public class OpenCommand {
         // check if the player specified a user's enderchest to open
         if (playerToOpen == null) {
             // if not, open the command sender's enderchest
-            commandSender.sendMessage(miniMsg.deserialize(configHandler.getOpenEnderPouchMessage()));
+            if (!configHandler.getOpenEnderPouchMessage().isEmpty()) {
+                commandSender.sendMessage(miniMsg.deserialize(configHandler.getOpenEnderPouchMessage()));
+            }
             openEnderChest(commandSender, commandSender);
         } else {
             // if so, check if the player has permission to open other users enderchests
@@ -58,13 +62,17 @@ public class OpenCommand {
                 openEnderChest(playerToOpen, commandSender);
 
                 // send a message to the command sender
-                commandSender.sendMessage(miniMsg.deserialize(
-                        configHandler.getOpenEnderPouchOtherMessage(),
-                        Placeholder.unparsed("player", playerToOpen.getName())
-                ));
+                if (!configHandler.getOpenEnderPouchOtherMessage().isEmpty()) {
+                    commandSender.sendMessage(miniMsg.deserialize(
+                            configHandler.getOpenEnderPouchOtherMessage(),
+                            Placeholder.unparsed("player", playerToOpen.getName())
+                    ));
+                }
             } else {
                 // if not, send an error message
-                commandSender.sendMessage(miniMsg.deserialize(configHandler.getOpenEnderChestOtherFailMessage()));
+                if (!configHandler.getOpenEnderChestOtherFailMessage().isEmpty()) {
+                    commandSender.sendMessage(miniMsg.deserialize(configHandler.getOpenEnderChestOtherFailMessage()));
+                }
             }
         }
     }
@@ -75,7 +83,9 @@ public class OpenCommand {
     public void openEnderChestCommand(
             Player commandSender
     ) {
-        commandSender.sendMessage(miniMsg.deserialize(configHandler.getOpenEnderPouchMessage()));
+        if (!configHandler.getOpenEnderPouchMessage().isEmpty()) {
+            commandSender.sendMessage(miniMsg.deserialize(configHandler.getOpenEnderPouchMessage()));
+        }
         openEnderChest(commandSender, commandSender);
     }
 }

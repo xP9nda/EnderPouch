@@ -47,7 +47,7 @@ public class ConfigHandler implements Listener {
     @CommandPermission("enderpouch.reload")
     public void reloadConfigCommand(Player commandSender) {
         this.reloadConfig();
-        commandSender.sendMessage(miniMsg.deserialize("<#6e5d83><bold>!</bold> <#9982b6>EnderAccess config reloaded..."));
+        commandSender.sendMessage(miniMsg.deserialize("<#6e5d83><b>!</b> <#9982b6>EnderAccess config reloaded..."));
     }
 
     // reload config method

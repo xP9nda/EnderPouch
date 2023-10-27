@@ -60,7 +60,9 @@ public class EnderPouchItem implements Listener {
         } else {
             // Check that the player to give the pouch to is valid and the user is not offline
             if (pluginClass.getServer().getPlayer(playerToGive.getUniqueId()) == null || !playerToGive.isOnline()) {
-                commandSender.sendMessage(miniMsg.deserialize(configHandler.getPlayerNotFoundErrorMessage()));
+                if (!configHandler.getPlayerNotFoundErrorMessage().isEmpty()) {
+                    commandSender.sendMessage(miniMsg.deserialize(configHandler.getPlayerNotFoundErrorMessage()));
+                }
                 return;
             }
 
@@ -69,7 +71,9 @@ public class EnderPouchItem implements Listener {
 
         // check that the player to give the pouch to has an open inventory slot
         if (!inventoryUtils.hasAvailableSlot(playerToGivePouchTo)) {
-            commandSender.sendMessage(miniMsg.deserialize(configHandler.getGiveEnderPouchInventoryFullMessage()));
+            if (!configHandler.getGiveEnderPouchInventoryFullMessage().isEmpty()) {
+                commandSender.sendMessage(miniMsg.deserialize(configHandler.getGiveEnderPouchInventoryFullMessage()));
+            }
             return;
         }
 
@@ -81,23 +85,29 @@ public class EnderPouchItem implements Listener {
 
         if (silent == null) {
             // send the player who received the pouch a message if the award should not be silent
-            playerToGivePouchTo.sendMessage(miniMsg.deserialize(configHandler.getGiveEnderPouchReceivedMessage(),
-                    Placeholder.unparsed("giver", commandSender.getName())
-            ));
+            if (!configHandler.getGiveEnderPouchReceivedMessage().isEmpty()) {
+                playerToGivePouchTo.sendMessage(miniMsg.deserialize(configHandler.getGiveEnderPouchReceivedMessage(),
+                        Placeholder.unparsed("giver", commandSender.getName())
+                ));
+            }
         } else {
             if (silent.equalsIgnoreCase("-s")) {
                 messageToSend += " <#6e5d83>(given silently)";
             } else {
                 // send the player who received the pouch a message if the award should not be silent
-                playerToGivePouchTo.sendMessage(miniMsg.deserialize(configHandler.getGiveEnderPouchReceivedMessage(),
-                        Placeholder.unparsed("giver", commandSender.getName())
-                ));
+                if (!configHandler.getGiveEnderPouchReceivedMessage().isEmpty()) {
+                    playerToGivePouchTo.sendMessage(miniMsg.deserialize(configHandler.getGiveEnderPouchReceivedMessage(),
+                            Placeholder.unparsed("giver", commandSender.getName())
+                    ));
+                }
             }
         }
 
-        commandSender.sendMessage(miniMsg.deserialize(messageToSend,
-                Placeholder.unparsed("player", playerToGivePouchTo.getName())
-        ));
+        if (!messageToSend.isEmpty()) {
+            commandSender.sendMessage(miniMsg.deserialize(messageToSend,
+                    Placeholder.unparsed("player", playerToGivePouchTo.getName())
+            ));
+        }
     }
 
     // pouch use method
@@ -126,16 +136,25 @@ public class EnderPouchItem implements Listener {
 
         // check that the player is not attempting to place the pouch
         if (event.getClickedBlock() != null) {
-            event.getPlayer().sendMessage(miniMsg.deserialize(configHandler.getPlaceEnderPouchMessage()));
+            if (!configHandler.getPlaceEnderPouchMessage().isEmpty()) {
+                event.getPlayer().sendMessage(miniMsg.deserialize(configHandler.getPlaceEnderPouchMessage()));
+            }
             event.setCancelled(true);
             return;
+        }
+
+        // check that the player is not attempting to use the item (right click air)
+        if (event.getClickedBlock() == null && event.getItem() != null) {
+            event.setCancelled(true);
         }
 
         // open the player's ender chest
         event.getPlayer().openInventory(event.getPlayer().getEnderChest());
 
         // send the player a message
-        event.getPlayer().sendMessage(miniMsg.deserialize(configHandler.getOpenEnderPouchMessage()));
+        if (!configHandler.getOpenEnderPouchMessage().isEmpty()) {
+            event.getPlayer().sendMessage(miniMsg.deserialize(configHandler.getOpenEnderPouchMessage()));
+        }
     }
 
     // give player ender pouch
