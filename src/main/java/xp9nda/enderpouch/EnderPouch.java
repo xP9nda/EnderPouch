@@ -12,6 +12,8 @@ import xp9nda.enderpouch.handlers.InfoCommand;
 import xp9nda.enderpouch.handlers.OpenCommand;
 import xp9nda.enderpouch.utils.InventoryUtils;
 
+import xp9nda.enderpouch.utils.Metrics
+
 public final class EnderPouch extends JavaPlugin {
 
     // variables
@@ -26,6 +28,9 @@ public final class EnderPouch extends JavaPlugin {
 
         // config
         saveDefaultConfig();
+
+        // bStats initialization
+        Metrics metrics = new Metrics(this, 20151);
 
         // Handlers and events
         var pluginManager = getServer().getPluginManager();
