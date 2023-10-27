@@ -1,0 +1,74 @@
+# EnderAccess config
+# a plugin by http://www.github.com/xp9nda
+
+# -------- FORMATTING INFORMATION
+
+# see https://docs.advntr.dev/minimessage/format.html for text formatting options
+# see https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html for material options
+
+# -------- ENDER POUCH ITEM CONFIGURATION
+
+enderPouch:
+  # enderPouch.item: (material)
+  # this is the item that acts as the ender pouch in the player's inventory
+  item: ENDER_CHEST
+
+  # enderPouch.stackable: (boolean) true | false
+  # this defines whether ender pouches are stackable
+  stackable: false
+
+  # enderPouch.glowing: (boolean) true | false
+  # this defines whether ender pouches glow in the player's inventory, as though they are enchanted
+  glowing: true
+
+  # enderPouch.displayName: (string)
+  # this is the display name of the ender pouch
+  displayName: "<#9982b6><b>Ender Pouch</b>"
+
+  # enderPouch.lore: (list of strings)
+  # this is the list of strings that will be displayed as the lore of the ender pouch
+  lore:
+    - ""
+    - "<#9982b6>Right Click<#ffffff> to open your ender chest"
+    - ""
+
+# -------- CHAT MESSAGES CONFIGURATION
+
+messages:
+  # messages.openPouch: (string)
+  # this is the message that will be sent to the player when they open their ender pouch
+  openPouch: "<#6e5d83><b>!</b> <#9982b6>Opening your ender chest..."
+
+  # messages.openPouchOther: (string)
+  # this is the message that will be sent to the player when they open another player's ender pouch
+  # accepted placeholders:
+    # <player> (the name of the player whose ender chest is being opened)
+  openPouchOther: "<#6e5d83><b>!</b> <#9982b6>Opening <#6e5d83><player><#9982b6>'s ender chest..."
+
+  # messages.openPouchOtherFail: (string)
+  # this is the message that will be sent to the player when they try to open another player's ender chest, but they do not have permission
+  openPouchOtherFail: "<#6e5d83><b>!</b> <#9982b6>You do not have permission to open another player's ender chest."
+
+  # messages.playerNotFound: (string)
+  # this is the message that will be sent whenever a player tries to reference another player during a command but the player referenced does not exist
+  playerNotFound: "<#6e5d83><b>!</b> <#9982b6>That player does not exist."
+
+  # messages.givePlayerInventoryFull: (string)
+  # this is the message that will be sent to the player when they try to give an ender pouch to a player whose inventory is full
+  givePlayerInventoryFull: "<#6e5d83><b>!</b> <#9982b6>That player's inventory is full."
+
+  # messages.givePlayerSuccess: (string)
+  # this is the message that will be sent to the player when they successfully give an ender pouch to another player
+  # accepted placeholders:
+    # <player> (the name of the player that the ender pouch was given to)
+  givePlayerSuccess: "<#6e5d83><b>!</b> <#9982b6>You gave an ender pouch to <#6e5d83><player><#9982b6>."
+
+  # messages.giveReceived: (string)
+  # this is the message that will be sent to the player when they receive an ender pouch from another player
+  # accepted placeholders:
+    # <giver> (the name of the player that gave the ender pouch)
+  giveReceived: "<#6e5d83><b>!</b> <#9982b6>You received an ender pouch from <#6e5d83><giver><#9982b6>."
+
+  # messages.attemptPlace: (string)
+  # this is the message that will be sent to the player when they attempt to place an ender pouch
+  attemptPlace: "<#6e5d83><b>!</b> <#9982b6>You cannot place an ender pouch."
