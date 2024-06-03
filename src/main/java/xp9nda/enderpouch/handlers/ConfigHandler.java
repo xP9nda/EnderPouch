@@ -34,6 +34,8 @@ public class ConfigHandler implements Listener {
     private String giveEnderPouchReceivedMessage;
     private String placeEnderPouchMessage;
 
+    private boolean rightClickInAirRequired;
+
     // constructor
     public ConfigHandler(Plugin loader) {
         plugin = loader;
@@ -47,7 +49,7 @@ public class ConfigHandler implements Listener {
     @CommandPermission("enderpouch.reload")
     public void reloadConfigCommand(Player commandSender) {
         this.reloadConfig();
-        commandSender.sendMessage(miniMsg.deserialize("<#6e5d83><b>!</b> <#9982b6>EnderAccess config reloaded..."));
+        commandSender.sendMessage(miniMsg.deserialize("<#6e5d83><b>!</b> <#9982b6>EnderPouch config reloaded..."));
     }
 
     // reload config method
@@ -69,6 +71,8 @@ public class ConfigHandler implements Listener {
         this.setGiveEnderPouchSuccessMessage(pluginClass.getConfig().getString("messages.givePlayerSuccess"));
         this.setGiveEnderPouchReceivedMessage(pluginClass.getConfig().getString("messages.giveReceived"));
         this.setPlaceEnderPouchMessage(pluginClass.getConfig().getString("messages.attemptPlace"));
+
+        this.setRightClickInAirRequired(pluginClass.getConfig().getBoolean("other.rightClickInAirRequired"));
     }
 
     public Material getEnderPouchMaterial() {
@@ -173,5 +177,14 @@ public class ConfigHandler implements Listener {
 
     public void setPlayerNotFoundErrorMessage(String playerNotFoundErrorMessage) {
         this.playerNotFoundErrorMessage = playerNotFoundErrorMessage;
+    }
+
+
+    public boolean isRightClickInAirRequired() {
+        return rightClickInAirRequired;
+    }
+
+    public void setRightClickInAirRequired(boolean rightClickInAirRequired) {
+        this.rightClickInAirRequired = rightClickInAirRequired;
     }
 }

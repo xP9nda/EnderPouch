@@ -5,6 +5,7 @@
 
 # see https://docs.advntr.dev/minimessage/format.html for text formatting options
 # see https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html for material options
+# leave any (string) fields as empty strings ("") to disable them
 
 # -------- ENDER POUCH ITEM CONFIGURATION
 
@@ -31,6 +32,13 @@ enderPouch:
     - ""
     - "<#9982b6>Right Click<#ffffff> to open your ender chest"
     - ""
+
+# -------- OTHER OPTIONS CONFIGURATION
+
+other:
+  # other.rightClickInAirRequired: (boolean) true | false
+  # this defines whether players must right-click in the air to open their ender pouch, rather than being able to right-click on any block
+  rightClickInAirRequired: false
 
 # -------- CHAT MESSAGES CONFIGURATION
 

@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "panda"
-version = "1.0"
+version = "1.1"
 description = "An all in one solution to ender chest access and management."
 
 repositories {
@@ -31,7 +31,7 @@ bukkit {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
 
     implementation("cloud.commandframework:cloud-paper:1.8.3")
     implementation("cloud.commandframework:cloud-annotations:1.8.3")

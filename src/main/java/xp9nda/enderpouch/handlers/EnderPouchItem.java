@@ -12,6 +12,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
@@ -113,25 +114,29 @@ public class EnderPouchItem implements Listener {
     // pouch use method
     @EventHandler
     private void onPlayerInteract(PlayerInteractEvent event) {
-        // check that the interaction was a right click and was not from the offhand slot
-        if (!event.getAction().name().contains("RIGHT_CLICK") || event.getHand() == EquipmentSlot.OFF_HAND) {
+        // check that the event is a right click event
+        Action action = event.getAction();
+        if (!(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) {
             return;
         }
 
         // check that the item exists
-        if (event.getItem() == null) {
+        var item = event.getItem();
+        if (item == null) {
             return;
         }
 
         // get the item in the player's main hand
-        var item = event.getItem();
-        assert item != null;
         var itemMeta = item.getItemMeta().getPersistentDataContainer();
 
         // check that the item is an ender pouch
         if (!itemMeta.has(enderPouchKey, PersistentDataType.STRING)) {
-            event.setCancelled(true);
             return;
+        }
+
+        // If the ender pouch is in the offhand, cancel the event continue code execution
+        if (event.getHand() == EquipmentSlot.OFF_HAND) {
+            event.setCancelled(true);
         }
 
         // check that the player is not attempting to place the pouch
@@ -140,10 +145,14 @@ public class EnderPouchItem implements Listener {
                 event.getPlayer().sendMessage(miniMsg.deserialize(configHandler.getPlaceEnderPouchMessage()));
             }
             event.setCancelled(true);
-            return;
+
+            // cancel the event if the config dictates that the player should not be able to use the item unless right-clicking in the air
+            if (configHandler.isRightClickInAirRequired()) {
+                return;
+            }
         }
 
-        // check that the player is not attempting to use the item (right click air)
+        // check that the player is not attempting to use the item (right-click air)
         if (event.getClickedBlock() == null && event.getItem() != null) {
             event.setCancelled(true);
         }
