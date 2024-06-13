@@ -35,6 +35,14 @@ public class ConfigHandler implements Listener {
     private String placeEnderPouchMessage;
 
     private boolean rightClickInAirRequired;
+    private boolean allowEnderChestDespawn;
+
+    private String attemptStorageMessage;
+    private boolean allowEnderChestStorage;
+
+    private String attemptDropMessage;
+    private boolean allowEnderChestDrop;
+    private boolean droppedItemInvulnerable;
 
     // constructor
     public ConfigHandler(Plugin loader) {
@@ -73,6 +81,13 @@ public class ConfigHandler implements Listener {
         this.setPlaceEnderPouchMessage(pluginClass.getConfig().getString("messages.attemptPlace"));
 
         this.setRightClickInAirRequired(pluginClass.getConfig().getBoolean("other.rightClickInAirRequired"));
+        this.setAllowEnderChestStorage(pluginClass.getConfig().getBoolean("other.allowEnderChestStorage"));
+        this.setAllowEnderChestDrop(pluginClass.getConfig().getBoolean("other.allowEnderChestDrop"));
+        this.setAllowEnderChestDespawn(pluginClass.getConfig().getBoolean("other.allowEnderChestDespawn"));
+
+        this.setAttemptStorageMessage(pluginClass.getConfig().getString("messages.attemptStorage"));
+        this.setAttemptDropMessage(pluginClass.getConfig().getString("messages.attemptDrop"));
+        this.setDroppedItemInvulnerable(pluginClass.getConfig().getBoolean("other.dropInvulnerable"));
     }
 
     public Material getEnderPouchMaterial() {
@@ -186,5 +201,53 @@ public class ConfigHandler implements Listener {
 
     public void setRightClickInAirRequired(boolean rightClickInAirRequired) {
         this.rightClickInAirRequired = rightClickInAirRequired;
+    }
+
+    public boolean isAllowEnderChestStorage() {
+        return allowEnderChestStorage;
+    }
+
+    public void setAllowEnderChestStorage(boolean allowEnderChestStorage) {
+        this.allowEnderChestStorage = allowEnderChestStorage;
+    }
+
+    public boolean isAllowEnderChestDrop() {
+        return allowEnderChestDrop;
+    }
+
+    public void setAllowEnderChestDrop(boolean allowEnderChestDrop) {
+        this.allowEnderChestDrop = allowEnderChestDrop;
+    }
+
+    public boolean isAllowEnderChestDespawn() {
+        return allowEnderChestDespawn;
+    }
+
+    public void setAllowEnderChestDespawn(boolean allowEnderChestDespawn) {
+        this.allowEnderChestDespawn = allowEnderChestDespawn;
+    }
+
+    public String getAttemptDropMessage() {
+        return attemptDropMessage;
+    }
+
+    public void setAttemptDropMessage(String attemptDropMessage) {
+        this.attemptDropMessage = attemptDropMessage;
+    }
+
+    public String getAttemptStorageMessage() {
+        return attemptStorageMessage;
+    }
+
+    public void setAttemptStorageMessage(String attemptStorageMessage) {
+        this.attemptStorageMessage = attemptStorageMessage;
+    }
+
+    public boolean isDroppedItemInvulnerable() {
+        return droppedItemInvulnerable;
+    }
+
+    public void setDroppedItemInvulnerable(boolean droppedItemInvulnerable) {
+        this.droppedItemInvulnerable = droppedItemInvulnerable;
     }
 }

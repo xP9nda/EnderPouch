@@ -40,6 +40,22 @@ other:
   # this defines whether players must right-click in the air to open their ender pouch, rather than being able to right-click on any block
   rightClickInAirRequired: false
 
+  # other.allowEnderChestStorage: (boolean) true | false
+  # this defines whether players can store an ender pouch item in their ender chest
+  allowEnderChestStorage: false
+
+  # other.allowEnderChestDespawn: (boolean) true | false
+  # this defines whether ender chest items can despawn when dropped on the ground
+  allowEnderChestDespawn: false
+
+  # other.allowEnderChestDrop: (boolean) true | false
+  # this defines whether players can drop their ender pouch item on the ground
+  allowEnderChestDrop: false
+
+  # other.dropInvulnerable: (boolean) true | false
+  # this defines whether dropped ender pouches are invulnerable to damage, only applicable if allowEnderChestDrop is set to true
+  dropInvulnerable: true
+
 # -------- CHAT MESSAGES CONFIGURATION
 
 messages:
@@ -80,3 +96,11 @@ messages:
   # messages.attemptPlace: (string)
   # this is the message that will be sent to the player when they attempt to place an ender pouch
   attemptPlace: "<#6e5d83><b>!</b> <#9982b6>You cannot place or use an ender pouch."
+
+  # messages.attemptDrop: (string)
+  # this is the message that will be sent to the player when they attempt to drop an ender pouch while the allowEnderChestDrop option is set to false
+  attemptDrop: "<#6e5d83><b>!</b> <#9982b6>You cannot drop an ender pouch."
+
+  # messages.attemptStorage: (string)
+  # this is the message that will be sent to the player when they attempt to store an ender pouch in their ender chest while the allowEnderChestStorage option is set to false
+  attemptStorage: "<#6e5d83><b>!</b> <#9982b6>You cannot store an ender pouch in your ender chest."

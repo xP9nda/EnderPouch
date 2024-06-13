@@ -3,6 +3,7 @@ package xp9nda.enderpouch.handlers;
 import cloud.commandframework.annotations.Argument;
 import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.CommandPermission;
+import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -13,6 +14,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.ItemDespawnEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.PrepareGrindstoneEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
@@ -187,9 +193,9 @@ public class EnderPouchItem implements Listener {
 
             // set item lore
             meta.lore(
-              configHandler.getEnderPouchLore().stream().map(
-                      loreMsg -> miniMsg.deserialize(loreMsg).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-              ).toList()
+                    configHandler.getEnderPouchLore().stream().map(
+                            loreMsg -> miniMsg.deserialize(loreMsg).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+                    ).toList()
             );
 
             // set up nbt data
@@ -212,4 +218,111 @@ public class EnderPouchItem implements Listener {
         // give the player the item
         player.getInventory().addItem(itemStack);
     }
+
+    // When an item is put into an inventory containing a result slot, check that the item is not an ender pouch
+    @EventHandler
+    public void onPrepareResult(PrepareResultEvent event) {
+        // check that an item is being prepared
+        if (event.getResult() == null) {
+            return;
+        }
+
+        // check if the result item is an ender pouch
+        var itemMeta = event.getResult().getItemMeta().getPersistentDataContainer();
+        if (!itemMeta.has(enderPouchKey, PersistentDataType.STRING)) {
+            return;
+        }
+
+        // cancel the event
+        event.setResult(null);
+    }
+
+    // on inventory click event
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        // check the type of inventory
+        InventoryType invType = event.getInventory().getType();
+
+        // check that the inventory is an ender chest
+        if (invType != InventoryType.ENDER_CHEST) {
+            return;
+        }
+
+        // check that an item is being moved
+        var item = event.getCurrentItem();
+        if (item == null) {
+            return;
+        }
+
+        // check that the item is not an ender pouch
+        var itemMeta = item.getItemMeta().getPersistentDataContainer();
+        if (!itemMeta.has(enderPouchKey, PersistentDataType.STRING)) {
+            return;
+        }
+
+        // return if the config allows ender pouch storage in ender chests
+        if (configHandler.isAllowEnderChestStorage()) {
+            return;
+        }
+
+        // cancel the event
+        event.setCancelled(true);
+
+        // send the player a message
+        if (!configHandler.getAttemptStorageMessage().isEmpty()) {
+            event.getWhoClicked().sendMessage(miniMsg.deserialize(configHandler.getAttemptStorageMessage()));
+        }
+    }
+
+    // on item drop
+    @EventHandler
+    public void onItemDrop(PlayerDropItemEvent event) {
+        // get the dropped item
+        var item = event.getItemDrop().getItemStack();
+
+        // check that the item is not an ender pouch
+        var itemMeta = item.getItemMeta().getPersistentDataContainer();
+        if (!itemMeta.has(enderPouchKey, PersistentDataType.STRING)) {
+            return;
+        }
+
+        // check if item dropping is allowed
+        if (configHandler.isAllowEnderChestDrop()) {
+            // set the item to invulnerable if the config allows it
+            event.getItemDrop().setInvulnerable(configHandler.isDroppedItemInvulnerable());
+
+            return;
+        }
+
+        // cancel the event
+        event.setCancelled(true);
+
+        // send the player a message
+        if (!configHandler.getAttemptDropMessage().isEmpty()) {
+            event.getPlayer().sendMessage(miniMsg.deserialize(configHandler.getAttemptDropMessage()));
+        }
+    }
+
+    // on despawn
+    @EventHandler
+    public void onDespawn(ItemDespawnEvent event) {
+        // check that ender pouch despawning is allowed
+        if (configHandler.isAllowEnderChestDespawn()) {
+            return;
+        }
+
+        // if the item is not allowed to despawn, do the following
+        // get the despawning item
+        var item = event.getEntity().getItemStack();
+
+        // check that the item is not an ender pouch
+        var itemMeta = item.getItemMeta().getPersistentDataContainer();
+        if (!itemMeta.has(enderPouchKey, PersistentDataType.STRING)) {
+            return;
+        }
+
+        // cancel the event
+        event.setCancelled(true);
+    }
+
 }
