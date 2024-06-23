@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "panda"
-version = "1.2"
+version = "1.2.1"
 description = "An all in one solution to ender chest access and management."
 
 repositories {

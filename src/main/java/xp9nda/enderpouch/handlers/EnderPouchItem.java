@@ -237,42 +237,61 @@ public class EnderPouchItem implements Listener {
         event.setResult(null);
     }
 
-    // on inventory click event
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        // check the type of inventory
+        // Check the type of inventory
         InventoryType invType = event.getInventory().getType();
 
-        // check that the inventory is an ender chest
+        // Check that the inventory is an ender chest
         if (invType != InventoryType.ENDER_CHEST) {
             return;
         }
 
-        // check that an item is being moved
-        var item = event.getCurrentItem();
-        if (item == null) {
-            return;
+        ItemStack item;
+        var hotbarButton = event.getHotbarButton();
+        var clickedInventory = event.getClickedInventory();
+        var whoClicked = event.getWhoClicked();
+
+        // If a hotbar button is pressed, and the item in the hotbar is an ender pouch, cancel the event
+        if (hotbarButton != -1) {
+            item = whoClicked.getInventory().getItem(hotbarButton);
+            if (item == null) {
+                return;
+            }
+        } else {
+            item = event.getCurrentItem();
+            if (item == null) {
+                return;
+            }
+
+            // Check if the clicked inventory is the ender chest and the cursor item is moving to the player's inventory
+            if (clickedInventory != null && clickedInventory.getType() == InventoryType.ENDER_CHEST && event.getSlotType() == InventoryType.SlotType.QUICKBAR) {
+                if (event.getCursor().getType() != Material.AIR) {
+                    item = event.getCursor();
+                }
+            }
         }
 
-        // check that the item is not an ender pouch
+        // Check that the item is not an ender pouch
         var itemMeta = item.getItemMeta().getPersistentDataContainer();
         if (!itemMeta.has(enderPouchKey, PersistentDataType.STRING)) {
             return;
         }
 
-        // return if the config allows ender pouch storage in ender chests
+        // Return if the config allows ender pouch storage in ender chests
         if (configHandler.isAllowEnderChestStorage()) {
             return;
         }
 
-        // cancel the event
+        // Cancel the event
         event.setCancelled(true);
 
-        // send the player a message
+        // Send the player a message
         if (!configHandler.getAttemptStorageMessage().isEmpty()) {
-            event.getWhoClicked().sendMessage(miniMsg.deserialize(configHandler.getAttemptStorageMessage()));
+            whoClicked.sendMessage(miniMsg.deserialize(configHandler.getAttemptStorageMessage()));
         }
     }
+
 
     // on item drop
     @EventHandler

@@ -1,4 +1,4 @@
-# EnderAccess config
+# EnderPouch config
 # a plugin by http://www.github.com/xp9nda
 
 # -------- FORMATTING INFORMATION
@@ -42,6 +42,9 @@ other:
 
   # other.allowEnderChestStorage: (boolean) true | false
   # this defines whether players can store an ender pouch item in their ender chest
+
+  # note: it is not advised to change this after it being true for a while, as
+  # note: ender pouches may become stuck in ender chests if this is set to false
   allowEnderChestStorage: false
 
   # other.allowEnderChestDespawn: (boolean) true | false
